@@ -23,13 +23,13 @@ $FS='/';
 $now=@time();
 $from=rtrim($C['from'],$FS).$FS;
 $to=rtrim($C['to'],$FS).$FS;
-echo 'Now is '.date('Y-m-d-h-i-s',$now).' timestamp '.$now.PHP_EOL;
+echo 'Now is '.date('Y-m-d-H-i-s',$now).' timestamp '.$now.PHP_EOL;
 $folders=array();
 $incomplete=array();
 $current=floor($now/$C['rounding'])*$C['rounding'];
 for($i=0;$i<$C['keep']+$C['behind'];$i++){
     $when=(floor($now/$C['rounding'])-$i)*$C['rounding'];
-    $partial=date('Y_m_d_h_i_s', $when);
+    $partial=date('Y_m_d_H_i_s', $when);
     if(is_dir($to.$partial) || $current==$when) {
         $folders[$when] = $partial;
         if(is_file($to . 'meta.' . $partial . '.incomplete')){
@@ -89,9 +89,9 @@ if($previous==null){
 echo 'Command: '.$command.PHP_EOL;
 $exec_result = null;
 file_put_contents($to.'meta.'.$folders[$current].'.incomplete','1');
-echo '=== Backup started at '.@date('Y-m-d-h-i-s').' ==='.PHP_EOL;
+echo '=== Backup started at '.@date('Y-m-d-H-i-s').' ==='.PHP_EOL;
 passthru($command,$exec_result);
-echo '=== Backup finished at '.@date('Y-m-d-h-i-s').' ==='.PHP_EOL;
+echo '=== Backup finished at '.@date('Y-m-d-H-i-s').' ==='.PHP_EOL;
 if($exec_result==0){
     echo 'Success!'.PHP_EOL;
     unlink($to.'meta.'.$folders[$current].'.incomplete');
@@ -149,9 +149,9 @@ if(count($folders)<=$C['keep']){
                 && is_dir($to.$folders[$delete])>0
             ){
                 $command='rm -rvf '.escapeshellarg($to.$folders[$delete]);
-                echo '=== Delete started at '.@date('Y-m-d-h-i-s').' ==='.PHP_EOL;
+                echo '=== Delete started at '.@date('Y-m-d-H-i-s').' ==='.PHP_EOL;
                 passthru($command);
-                echo '=== Delete finished at '.@date('Y-m-d-h-i-s').' ==='.PHP_EOL;
+                echo '=== Delete finished at '.@date('Y-m-d-H-i-s').' ==='.PHP_EOL;
                 @unlink($to.'meta.'.$folders[$delete].'.incomplete');
                 unset($folders[$delete]);
                 unset($incomplete[$delete]);
